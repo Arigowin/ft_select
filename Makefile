@@ -12,10 +12,10 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft
 
-SRC = 
+SRC = main.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
@@ -27,7 +27,7 @@ $(NAME): $(OFILES)
 	@echo "$(NAME) : Building Libft"
 	@$(MAKE) -C $(LIBPATH)
 	@echo "$(NAME) : Building $@"
-	@$(CC) $(CFLAGS) -o $@  $(LIBS)
+	$(CC) $(CFLAGS) -o $@  $(LIBS)
 	@echo "\033[32mDone !\033[0m"
 
 $(OPATH)/%.o: $(CPATH)/%.c
