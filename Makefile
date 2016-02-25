@@ -13,9 +13,13 @@ LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
 CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
-LIBS = -L $(LIBPATH) -lft
+LIBS = -L $(LIBPATH) -lft -ltermcap
 
-SRC = main.c
+SRC = arrows.c \
+	  main.c \
+	  move.c \
+	  print.c \
+	  iniscreen.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
