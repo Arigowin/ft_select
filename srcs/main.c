@@ -4,6 +4,8 @@
 #include <term.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <stdio.h>
 
 int		lenmax(t_elements **elem)
 {
@@ -58,6 +60,11 @@ int     ft_select(t_elements **elem, int ac)
 	gohome();
 	init_t_input(input);
 	tmp = *elem;
+	if (signal(SIGWINCH, signalhandler) == ((void (*)(/*int*/))SIGWINCH))
+	{
+		printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+		print_lst(elem, win);
+	}
 	while (1)
 	{
 		if (ft_input(input, &point, &win, &tmp) == -1)
@@ -66,7 +73,7 @@ int     ft_select(t_elements **elem, int ac)
 	return (0);
 }
 
-int              main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	struct termios	term;
 	struct termios	term_old;
@@ -75,6 +82,8 @@ int              main(int ac, char **av)
 	elem = NULL;
 	if (ac > 1)
 	{
+		signal(SIGINT, signalhandler);
+		signal(SIGCONT, signalhandler);
 		init_term(&term, &term_old, av, &elem);
 		ft_select(&elem, ac);
 

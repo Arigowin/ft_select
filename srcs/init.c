@@ -60,7 +60,7 @@ int		init_term(t_termios *term, t_termios *term_old, char **av, t_elements **ele
 	if (init_lst(elem, av) == FALSE)
 		return (-1);
 	if ((name_term = getenv("TERM")) == NULL)
-		return (-1);
+		name_term = "xterm";
 	if (tgetent(NULL, name_term) == -1)
 		return (-1);
 	if (tcgetattr(0, term) == -1)

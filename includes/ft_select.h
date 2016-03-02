@@ -37,7 +37,6 @@ typedef struct			s_input
 	int					(*fun) (t_point *, t_elements **, t_win *);
 }						t_input;
 
-// ajout de structure doublement chainer avec position du curseur dedant
 // redesiner que si mis en tache de fond ^z
 //				ou suppr
 //				ou redimension
@@ -63,6 +62,9 @@ int						init_t_point(t_point *point, int x, int y);
 int						init_t_input(t_input input[7]);
 t_bool					init_lst(t_elements **elem, char **av);
 int						init_term(t_termios *term, t_termios *term_old, char **av, t_elements **elem);
+
+
+void					signalhandler(int code);
 
 #endif
 
