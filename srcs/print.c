@@ -9,31 +9,32 @@ int	my_outc(int c)
 	return (0);
 }
 
-int	printstr(char *str)
+int	printstr(t_elements *elem, int x, int y)
 {
-	int		i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		my_outc(str[i]);
-		i++;
-	}
+	gobeginogline(x, y);
+	if (elem->select)
+		ft_putstr_color("\033[30;47m", elem->str);
+	else
+		ft_putstr_color("\033[0;m", elem->str);
 	return (0);
 }
 
-int	printstrunder(char *str)
+int	printstrunder(t_elements *elem, int x, int y)
 {
 	char	*res;
 	int		i;
 
 	i = 0;
-	while (str && str[i])
+	gobeginogline(x, y);
+	while (elem->str && elem->str[i])
 	{
 		if ((res = tgetstr("us", NULL)) == NULL)
 			return (-1);
 		tputs(res, 0, my_outc);
-		my_outc(str[i]);
+		if (elem->select)
+			ft_putchar_color("\033[30;47m", elem->str[i]);
+		else
+			ft_putchar(elem->str[i]);
 		if ((res = tgetstr("ue", NULL)) == NULL)
 			return (-1);
 		tputs(res, 0, my_outc);
@@ -42,39 +43,51 @@ int	printstrunder(char *str)
 	return (0);
 }
 
-int	print_lst(t_elements **elem, int ml)
+int	print_one_elem(t_elements **elem, t_win win, int *j, int *x)
 {
-	int	i;
-	int	j;
-	int	x;
 	char	*res;
-	t_elements *tmp;
+
+	if ((res = tgetstr("cm", NULL)) == NULL)
+		return (-1);
+	tputs(tgoto(res, *x, *j), 1, my_outc);
+	if (*j < win.nb_row)
+	{
+		if ((*elem)->under)
+			printstrunder(*elem, *x, *j);
+		else
+			printstr(*elem, *x, *j);
+		(*elem) = (*elem)->next;
+		(*j)++;
+	}
+	else
+	{
+		*x += win.col_size;
+		(*j) = 0;
+	}
+	return (1);
+}
+
+int	print_lst(t_elements **elem, t_win win)
+{
+	t_elements	*tmp;
+	int			j;
+	int			x;
 
 	clear();
 	gohome();
 	hidecursor();
-	i = 1;
-	j = 1;
 	x = 0;
+	j = 1;
 	tmp = *elem;
-	printstrunder(tmp->str);
+	if (tmp->under)
+		printstrunder(*elem, 0, 0);
+	else
+		printstr(*elem, 0, 0);
 	tmp = tmp->next;
 	while (tmp && tmp->next && tmp->head == FALSE)
 	{
-		if ((res = tgetstr("cm", NULL)) == NULL)
+		if (print_one_elem(&tmp, win, &j, &x) == -1)
 			return (-1);
-		tputs(tgoto(res, x, j), 1, my_outc);
-		if (j < ml)
-		{
-			printstr(tmp->str);
-			tmp = tmp->next;
-			j++;
-		}
-		else
-		{
-			x += 50;
-			j = 0;
-		}
 	}
 	my_outc('\n');
 	return (0);
