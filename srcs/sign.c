@@ -30,10 +30,10 @@ void	sigstop(void)
 	all = memoire(all, 1);
 	tmp = all->cur_term.c_cc[VSUSP];
 	all->cur_term.c_lflag |= (ICANON | ECHO);
-	tcsetattr(0, TCSANOW, &(all->cur_term));
+	tcsetattr(1, TCSANOW, &(all->cur_term));
 	showcursor();
 	tputs(tgetstr("te", NULL), 1, my_outc);
-	ioctl(0, TIOCSTI, &tmp);
+	ioctl(1, TIOCSTI, &tmp);
 	signal(SIGTSTP, SIG_DFL);
 }
 

@@ -74,12 +74,12 @@ t_bool					init_lst(t_elements **elem, char **av);
 int						init_term(t_all *all);
 int						print_select(t_elements *elem);
 
-int		reset_term(t_all *all);
+int						reset_term(t_all *all);
 
 int						ft_signal(void);
 void					signalhandler(int code);
-t_all	*memoire(t_all *all, int code);
-void	resize(t_all *all);
+t_all					*memoire(t_all *all, int code);
+void					resize(t_all *all);
 
 #endif
 

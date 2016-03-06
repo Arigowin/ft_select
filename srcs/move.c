@@ -8,6 +8,6 @@ int		gobeginogline(int x, int y)
 
 	if ((res = tgetstr("cm", NULL)) == NULL)
 		return (-1);
-	tputs(tgoto(res, x, y), 0, my_outc);
+	tputs(tgoto(res, x, y), 1, my_outc);
 	return (0);
 }

@@ -67,8 +67,25 @@ t_bool		init_lst(t_elements **elem, char **av)
 int		init_term(t_all *all)
 {
 	char	*res;
-	int		fd;
-
+//	int		fd;
+//
+//	fd = ttyslot();
+//	if (isatty(fd))
+//	{
+//		res = ttyname(fd);
+//		fd = open(res, O_NOCTTY);
+//		printf("OK\n");
+//	}
+//	else
+//	{
+//		printf("OK2%s\n", ttyname(fd));
+//		fd = open("/dev/tty", O_NOCTTY);
+//		fd = 0;
+//	}
+//	if (ioctl(fd, TIOCNOTTY) == -1)
+//	{
+//		printf("ERROR\n");
+//	}
 	if (tgetent(NULL, getenv("TERM")) == -1)
 		return (-1);
 	if (tcgetattr(0, &(all->cur_term)) == -1)
@@ -84,16 +101,6 @@ int		init_term(t_all *all)
 		return (-1);
 	tputs(res, 0, my_outc);
 	hidecursor();
-	fd = ttyslot();
-	res = ttyname(fd);
-	fd = open(res, O_RDONLY);
-	if (isatty(fd))
-	{
-		if (ioctl(fd, TIOCSCTTY) == -1)
-		{
-			printf("ERROR\n");
-		}
-	}
 	return (0);
 }
 
