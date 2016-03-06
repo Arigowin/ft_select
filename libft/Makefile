@@ -6,7 +6,7 @@
 #    By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 13:01:21 by dolewski          #+#    #+#              #
-#    Updated: 2016/02/16 18:23:06 by dolewski         ###   ########.fr        #
+#    Updated: 2016/03/06 18:49:56 by dolewski         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,8 @@ SRC = ft_memalloc.c \
 	  ft_putchar_color.c \
 	  ft_putstr_color.c \
 	  ft_putnbr_color.c \
+	  ft_putchar_color_fd.c \
+	  ft_putstr_color_fd.c \
 	  \
 	  ft_lstnew.c \
 	  ft_lstdelone.c \

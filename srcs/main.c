@@ -27,7 +27,7 @@ int		lenmax(t_elements **elem)
 	return (lenmax + 2);
 }
 
-int		ft_input(t_input input[7], t_point *point, t_elements **tmp, t_win *win)
+int		ft_input(t_input input[7], t_all *all)
 {
 	int			buf;
 	int			i;
@@ -41,7 +41,7 @@ int		ft_input(t_input input[7], t_point *point, t_elements **tmp, t_win *win)
 		i++;
 	if (i < 7 && buf == (input[i]).value)
 	{
-		if ((ret = (input[i]).fun(point, tmp, win)) == -1)
+		if ((ret = (input[i]).fun(all)) == -1)
 			return (-1);
 		else if (ret == -2)
 			return (-2);
@@ -49,26 +49,36 @@ int		ft_input(t_input input[7], t_point *point, t_elements **tmp, t_win *win)
 	return (0);
 }
 
-int     ft_select(t_all *all, int ac)
+int     ft_select(t_all *all)
 {
 	t_input		input[7];
 	int			ret;
 
-	init_t_win(&(all->win), ac - 1);
+	resize(all);
+	all->win.col_size = 0;
 	all->win.col_size = lenmax(&(all->elem));
 	init_t_point(&(all->point), 0, 0);
 	init_t_input(input);
 	clear();
-	print_lst(&(all->elem), (all->win));
+	print_lst(all);
 	gohome();
 	while (1)
 	{
-		if ((ret = ft_input(input, &all->point, &(all->elem), &all->win)) == -1)
+		if ((ret = ft_input(input, all)) == -1)
 			return (-1);
 		else if (ret == -2)
 			return (-2);
 	}
 	return (0);
+}
+
+int		memoire_fd(int fd)
+{
+	static int tmp;
+	
+	if (fd != 0)
+		tmp = fd;
+	return (tmp);
 }
 
 t_all	*memoire(t_all *all, int code)
@@ -93,12 +103,13 @@ int		main(int ac, char **av)
 			return (-1);
 		if (init_lst(&(all.elem), av) == FALSE)
 			return (-1);
+		all.win.nb_elem = ac - 1;
 		memoire(&all, 0);
-		ret = ft_select(&all, ac);
+		ret = ft_select(&all);
 		if (reset_term(&all) == -1)
 			return (-1);
 		if (ret == -2)
-			print_select(all.elem);
+			print_select(&all);
 	}
 	return (0);
 }

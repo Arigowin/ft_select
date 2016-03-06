@@ -9,7 +9,7 @@ int		clear(void)
 
 	if ((res = tgetstr("cl", NULL)) == NULL)
 		return (-1);
-	tputs(res, 0, my_outc);
+	tputs(res, 1, my_outc);
 	return (0);
 }
 
@@ -19,7 +19,7 @@ int		gohome(void)
 
 	if ((res = tgetstr("ho", NULL)) == NULL)
 		return (-1);
-	tputs(tgoto(res, 0, 0), 0, my_outc);
+	tputs(tgoto(res, 0, 0), 1, my_outc);
 	return (0);
 }
 
@@ -29,7 +29,7 @@ int		hidecursor(void)
 
 	if ((res = tgetstr("vi", NULL)) == NULL)
 		return (-1);
-	tputs(res, 0, my_outc);
+	tputs(res, 1, my_outc);
 	return (0);
 }
 
@@ -39,10 +39,10 @@ int		showcursor(void)
 
 	if ((res = tgetstr("ve", NULL)) == NULL)
 		return (-1);
-	tputs(res, 0, my_outc);
+	tputs(res, 1, my_outc);
 	if ((res = tgetstr("vs", NULL)) == NULL)
 		return (-1);
-	tputs(res, 0, my_outc);
+	tputs(res, 1, my_outc);
 	return (0);
 }
 
@@ -51,7 +51,7 @@ void	resize(t_all *all)
 	struct winsize	win;
 
 	clear();
-	ioctl(0, TIOCGWINSZ, &win);
+	ioctl(all->fd, TIOCGWINSZ, &win);
 	all->win.nb_col = win.ws_col;
 	all->win.nb_row = win.ws_row;
 }

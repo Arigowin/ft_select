@@ -12,17 +12,17 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -g -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = elem.c \
-	  event.c \
-	  iniscreen.c \
-	  init.c \
-	  main.c \
-	  move.c \
-	  print.c \
-	  sign.c
+	event.c \
+	iniscreen.c \
+	init.c \
+	main.c \
+	move.c \
+	print.c \
+	sign.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
@@ -35,7 +35,7 @@ $(NAME): $(OFILES)
 	@$(MAKE) -C $(LIBPATH)
 	@echo "$(NAME) : Building $@"
 	@$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-	@echo "\\033[32mDone !\\033[0m"
+	@echo "\033[32mDone !\033[0m"
 
 $(OPATH)/%.o: $(CPATH)/%.c
 	@echo "$(NAME) : Creating file $@"
@@ -52,7 +52,7 @@ clean:
 fclean: clean lib.fclean
 	@echo "$(NAME) : Deleting $(NAME)"
 	@$(RM) -f $(NAME)
-	@echo "\\033[32mDone !\\033[0m"
+	@echo "\033[32mDone !\033[0m"
 
 lib.fclean:
 	@$(MAKE) fclean -C $(LIBPATH)

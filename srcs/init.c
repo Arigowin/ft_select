@@ -6,24 +6,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int		init_t_win(t_win *win, int nb_elem)
-{
-	int		r;
-	int		c;
-
-	r = win->nb_row;
-	c = win->nb_col;
-	if ((win->nb_row = tgetnum("li")) == -1)
-		return (-1);
-	if ((win->nb_col = tgetnum("co")) == -1)
-		return (-1);
-	win->nb_elem = nb_elem;
-	win->col_size = 0;
-	if (win->nb_col != c || win->nb_row != r)
-		return (1);
-	return (0);
-}
-
 int		init_t_point(t_point *point, int x, int y)
 {
 	point->x = x;
@@ -67,39 +49,25 @@ t_bool		init_lst(t_elements **elem, char **av)
 int		init_term(t_all *all)
 {
 	char	*res;
-//	int		fd;
-//
-//	fd = ttyslot();
-//	if (isatty(fd))
-//	{
-//		res = ttyname(fd);
-//		fd = open(res, O_NOCTTY);
-//		printf("OK\n");
-//	}
-//	else
-//	{
-//		printf("OK2%s\n", ttyname(fd));
-//		fd = open("/dev/tty", O_NOCTTY);
-//		fd = 0;
-//	}
-//	if (ioctl(fd, TIOCNOTTY) == -1)
-//	{
-//		printf("ERROR\n");
-//	}
+
+	all->fd = 0;
+	if ((all->fd = open("/dev/tty", O_NOCTTY|O_RDWR)) == -1)
+		return (-1);
+	memoire_fd(all->fd);
 	if (tgetent(NULL, getenv("TERM")) == -1)
 		return (-1);
-	if (tcgetattr(0, &(all->cur_term)) == -1)
+	if (tcgetattr(all->fd, &(all->cur_term)) == -1)
 		return (-1);
-	if (tcgetattr(0, &(all->old_term)) == -1)
+	if (tcgetattr(all->fd, &(all->old_term)) == -1)
 		return (-1);
 	all->cur_term.c_lflag &= ~(ICANON | ECHO);
 	all->cur_term.c_cc[VMIN] = 1;
 	all->cur_term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &(all->cur_term)) == -1)
+	if (tcsetattr(all->fd, TCSADRAIN, &(all->cur_term)) == -1)
 		return (-1);
 	if ((res = tgetstr("ti", NULL)) == NULL)
 		return (-1);
-	tputs(res, 0, my_outc);
+	tputs(res, 1, my_outc);
 	hidecursor();
 	return (0);
 }
@@ -109,7 +77,7 @@ int		reset_term(t_all *all)
 	showcursor();
 	all->old_term.c_lflag |= (ICANON | ECHO);
 	tputs(tgetstr("te", NULL), 1, my_outc);
-	if (tcsetattr(0, TCSANOW, &(all->old_term)) == -1)
+	if (tcsetattr(all->fd, TCSANOW, &(all->old_term)) == -1)
 		return (-1);
 	return (0);
 }

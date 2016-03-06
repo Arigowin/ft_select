@@ -16,7 +16,7 @@ void	sigcont(void)
 	resize(all);
 	while (all->elem->head == FALSE)
 		all->elem = all->elem->next;
-	print_lst(&(all->elem), all->win);
+	print_lst(all);
 	while (all->elem->under == FALSE)
 		all->elem = all->elem->next;
 }
@@ -46,7 +46,7 @@ void	sigwinch(void)
 	resize(all);
 	while (all->elem->head == FALSE)
 		all->elem = all->elem->next;
-	print_lst(&(all->elem), all->win);
+	print_lst(all);
 	while (all->elem->under == FALSE)
 		all->elem = all->elem->next;
 }

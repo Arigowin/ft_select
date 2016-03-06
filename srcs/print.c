@@ -3,24 +3,27 @@
 #include <stdlib.h>
 #include <term.h>
 
-#include <unistd.h>
 int	my_outc(int c)
 {
-	ft_putchar(c);
+	int		fd;
+
+	fd = 0;
+	fd = memoire_fd(fd);
+	ft_putchar_fd(c, fd);
 	return (0);
 }
 
-int	printstr(t_elements *elem, int x, int y)
+int	printstr(int fd, t_elements *elem, int x, int y)
 {
 	gobeginogline(x, y);
 	if (elem->select)
-		ft_putstr_color("\033[30;47m", elem->str);
+		ft_putstr_color_fd(fd, "\033[30;47m", elem->str);
 	else
-		ft_putstr_color("\033[0;m", elem->str);
+		ft_putstr_color_fd(fd, "\033[0;m", elem->str);
 	return (0);
 }
 
-int	printstrunder(t_elements *elem, int x, int y)
+int	printstrunder(int fd, t_elements *elem, int x, int y)
 {
 	char	*res;
 	int		i;
@@ -31,44 +34,44 @@ int	printstrunder(t_elements *elem, int x, int y)
 	{
 		if ((res = tgetstr("us", NULL)) == NULL)
 			return (-1);
-		tputs(res, 0, my_outc);
+		tputs(res, 1, my_outc);
 		if (elem->select)
-			ft_putchar_color("\033[30;47m", elem->str[i]);
+			ft_putchar_color_fd(fd, "\033[30;47m", elem->str[i]);
 		else
-			ft_putchar(elem->str[i]);
+			ft_putchar_fd(elem->str[i], fd);
 		if ((res = tgetstr("ue", NULL)) == NULL)
 			return (-1);
-		tputs(res, 0, my_outc);
+		tputs(res, 1, my_outc);
 		i++;
 	}
 	return (0);
 }
 
-int	print_one_elem(t_elements **elem, t_win win, int *j, int *x)
+int	print_one_elem(t_all *all, t_elements **elem, int *j, int *x)
 {
 	char	*res;
 
 	if ((res = tgetstr("cm", NULL)) == NULL)
 		return (-1);
 	tputs(tgoto(res, *x, *j), 1, my_outc);
-	if (*j < win.nb_row)
+	if (*j < all->win.nb_row)
 	{
 		if ((*elem)->under)
-			printstrunder(*elem, *x, *j);
+			printstrunder(all->fd, *elem, *x, *j);
 		else
-			printstr(*elem, *x, *j);
+			printstr(all->fd, *elem, *x, *j);
 		(*elem) = (*elem)->next;
 		(*j)++;
 	}
 	else
 	{
-		*x += win.col_size;
+		*x += all->win.col_size;
 		(*j) = 0;
 	}
 	return (1);
 }
 
-int	print_lst(t_elements **elem, t_win win)
+int	print_lst(t_all *all)
 {
 	t_elements	*tmp;
 	int			j;
@@ -77,38 +80,37 @@ int	print_lst(t_elements **elem, t_win win)
 	gohome();
 	x = 0;
 	j = 1;
-	tmp = *elem;
+	tmp = all->elem;
 	if (tmp->under)
-		printstrunder(*elem, 0, 0);
+		printstrunder(all->fd, tmp, 0, 0);
 	else
-		printstr(*elem, 0, 0);
+		printstr(all->fd, tmp, 0, 0);
 	tmp = tmp->next;
 	while (tmp && tmp->next && tmp->head == FALSE)
 	{
-		if (print_one_elem(&tmp, win, &j, &x) == -1)
+		if (print_one_elem(all, &tmp, &j, &x) == -1)
 			return (-1);
 	}
 	my_outc('\n');
 	return (0);
 }
 
-#include <stdio.h>
-int	print_select(t_elements *elem)
+int	print_select(t_all *all)
 {
-	if (elem->select)
+	if (all->elem->select)
 	{
-		ft_putstr(elem->str);
-		ft_putstr(" ");
+		ft_putstr_fd(all->elem->str, all->fd);
+		ft_putstr_fd(" ", all->fd);
 	}
-	elem = elem->next;
-	while (elem && elem->next && elem->head == FALSE)
+	all->elem = all->elem->next;
+	while (all->elem && all->elem->next && all->elem->head == FALSE)
 	{
-		if (elem->select)
+		if (all->elem->select)
 		{
-			ft_putstr(elem->str);
-			ft_putstr(" ");
+			ft_putstr_fd(all->elem->str, all->fd);
+			ft_putstr_fd(" ", all->fd);
 		}
-		elem = elem->next;
+		all->elem = all->elem->next;
 	}
 	return (0);
 }

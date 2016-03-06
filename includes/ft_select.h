@@ -32,12 +32,6 @@ typedef struct			s_win
 	int					nb_elem;
 }						t_win;
 
-typedef struct			s_input
-{
-	int					value;
-	int					(*fun) (t_point *, t_elements **, t_win *);
-}						t_input;
-
 typedef struct			s_all
 {
 	t_termios			cur_term;
@@ -45,40 +39,54 @@ typedef struct			s_all
 	t_elements			*elem;
 	t_point				point;
 	t_win				win;
+	int					fd;
 }						t_all;
+
+typedef struct			s_input
+{
+	int					value;
+	int					(*fun) (t_all *);
+}						t_input;
 
 // redesiner que si mis en tache de fond ^z
 //				ou suppr
 //				ou redimension
 
 int						gobeginogline(int x, int y);
-int						my_outc(int c);
-int						printstr(t_elements *elem, int x, int y);
-int						printstrunder(t_elements *elem, int x, int y);
+
 int						clear(void);
 int						gohome(void);
 int						hidecursor(void);
 int						showcursor(void);
-int						print_lst(t_elements **elem, t_win win);
-int						next(t_point *point, t_elements **elem, t_win *win);
-int						prev(t_point *point, t_elements **elem, t_win *win);
-int						escape(t_point *point, t_elements **elem, t_win *win);
-int						enter(t_point *point, t_elements **elem, t_win *win);
-int						del(t_point *point, t_elements **elem, t_win *win);
-int						space(t_point *point, t_elements **elem, t_win *win);
+
+int						next(t_all *all);
+int						prev(t_all *all);
+int						escape(t_all *all);
+int						enter(t_all *all);
+int						del(t_all *all);
+int						space(t_all *all);
+
 t_elements				*elem_add(t_elements **elem, char *str);
-int						init_t_win(t_win *win, int nb_elem);
+
 int						init_t_point(t_point *point, int x, int y);
 int						init_t_input(t_input input[7]);
 t_bool					init_lst(t_elements **elem, char **av);
 int						init_term(t_all *all);
-int						print_select(t_elements *elem);
+
+int						my_outc(int c);
+int						printstr(int fd, t_elements *elem, int x, int y);
+int						printstrunder(int fd, t_elements *elem, int x, int y);
+int						print_lst(t_all *all);
+int						print_select(t_all *all);
 
 int						reset_term(t_all *all);
 
 int						ft_signal(void);
 void					signalhandler(int code);
+
 t_all					*memoire(t_all *all, int code);
+int						memoire_fd(int fd);
+
 void					resize(t_all *all);
 
 #endif
