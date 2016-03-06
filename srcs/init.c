@@ -1,6 +1,9 @@
 #include "ft_select.h"
 #include <term.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 
 int		init_t_win(t_win *win, int nb_elem)
@@ -64,6 +67,7 @@ t_bool		init_lst(t_elements **elem, char **av)
 int		init_term(t_all *all)
 {
 	char	*res;
+	int		fd;
 
 	if (tgetent(NULL, getenv("TERM")) == -1)
 		return (-1);
@@ -80,13 +84,24 @@ int		init_term(t_all *all)
 		return (-1);
 	tputs(res, 0, my_outc);
 	hidecursor();
+	fd = ttyslot();
+	res = ttyname(fd);
+	fd = open(res, O_RDONLY);
+	if (isatty(fd))
+	{
+		if (ioctl(fd, TIOCSCTTY) == -1)
+		{
+			printf("ERROR\n");
+		}
+	}
 	return (0);
 }
 
 int		reset_term(t_all *all)
 {
-	clear();
 	showcursor();
+	all->old_term.c_lflag |= (ICANON | ECHO);
+	tputs(tgetstr("te", NULL), 1, my_outc);
 	if (tcsetattr(0, TCSANOW, &(all->old_term)) == -1)
 		return (-1);
 	return (0);

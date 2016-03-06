@@ -14,27 +14,27 @@ void	sigcont(void)
 	init_term(all);
 	ft_signal();
 	resize(all);
+	while (all->elem->head == FALSE)
+		all->elem = all->elem->next;
 	print_lst(&(all->elem), all->win);
+	while (all->elem->under == FALSE)
+		all->elem = all->elem->next;
 }
 
 void	sigstop(void)
 {
 	t_all	*all;
-	char	tmp[2];
-	char	*res;
+	char	tmp;
 
 	all = NULL;
 	all = memoire(all, 1);
-	tmp[0] = all->cur_term.c_cc[VSUSP];
-	tmp[1] = 0;
+	tmp = all->cur_term.c_cc[VSUSP];
 	all->cur_term.c_lflag |= (ICANON | ECHO);
-	signal(SIGSTOP, SIG_DFL);
-	clear();
 	tcsetattr(0, TCSANOW, &(all->cur_term));
 	showcursor();
-	res = tgetstr("te", NULL);
-	tputs(res, 0, my_outc);
-	ioctl(0, TIOCSTI, tmp);
+	tputs(tgetstr("te", NULL), 1, my_outc);
+	ioctl(0, TIOCSTI, &tmp);
+	signal(SIGTSTP, SIG_DFL);
 }
 
 void	sigwinch(void)
@@ -51,33 +51,43 @@ void	sigwinch(void)
 		all->elem = all->elem->next;
 }
 
-//void	siginter(void)
-//{
-//	t_all *all;
-//
-//	all = NULL;
-//	all = memoire(all, 0);
-//	reset_term(all);
-//	exit(0);
-//}
+void	siginter(void)
+{
+	t_all *all;
+
+	all = NULL;
+	all = memoire(all, 1);
+	reset_term(all);
+	exit(0);
+}
 
 void	signalhandler(int code)
 {
 	if (code == SIGCONT)
 		sigcont();
-	else if (code == SIGSTOP)
+	else if (code == SIGTSTP)
 		sigstop();
 	else if (code == SIGWINCH)
 		sigwinch();
-//	else
-//		siginter();
+	else
+		siginter();
 }
 
 int		ft_signal(void)
 {
-	signal(SIGCONT, signalhandler);
-	signal(SIGSTOP, signalhandler);
-	signal(SIGWINCH, signalhandler);
+	int		i;
+
+	i = 1;
+	// enlever catch all signal
+//	signal(SIGCONT, signalhandler);
+//	signal(SIGTSTP, signalhandler);
+//	signal(SIGWINCH, signalhandler);
+//	signal(SIGQUIT, signalhandler);
+	while (i < 32)
+	{
+		signal(i, signalhandler);
+		i++;
+	}
 	return (1);
 }
 
