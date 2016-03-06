@@ -1,6 +1,7 @@
 #include "ft_select.h"
 #include <stdlib.h>
 #include <term.h>
+#include <sys/ioctl.h>
 
 int		clear(void)
 {
@@ -43,4 +44,14 @@ int		showcursor(void)
 		return (-1);
 	tputs(res, 0, my_outc);
 	return (0);
+}
+
+void	resize(t_all *all)
+{
+	struct winsize	win;
+
+	clear();
+	ioctl(0, TIOCGWINSZ, &win);
+	all->win.nb_col = win.ws_col;
+	all->win.nb_row = win.ws_row;
 }

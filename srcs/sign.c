@@ -1,31 +1,86 @@
 #include "ft_select.h"
 #include <signal.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include <stdio.h>
 
-// focntion qui va gerer les signaux
+void	sigcont(void)
+{
+	t_all *all;
+
+	all = NULL;
+	all = memoire(all, 1);
+	init_term(all);
+	ft_signal();
+	resize(all);
+	print_lst(&(all->elem), all->win);
+}
+
+void	sigstop(void)
+{
+	t_all	*all;
+	char	tmp[2];
+	char	*res;
+
+	all = NULL;
+	all = memoire(all, 1);
+	tmp[0] = all->cur_term.c_cc[VSUSP];
+	tmp[1] = 0;
+	all->cur_term.c_lflag |= (ICANON | ECHO);
+	signal(SIGSTOP, SIG_DFL);
+	clear();
+	tcsetattr(0, TCSANOW, &(all->cur_term));
+	showcursor();
+	res = tgetstr("te", NULL);
+	tputs(res, 0, my_outc);
+	ioctl(0, TIOCSTI, tmp);
+}
+
+void	sigwinch(void)
+{
+	t_all	*all;
+
+	all = NULL;
+	all = memoire(all, 1);
+	resize(all);
+	while (all->elem->head == FALSE)
+		all->elem = all->elem->next;
+	print_lst(&(all->elem), all->win);
+	while (all->elem->under == FALSE)
+		all->elem = all->elem->next;
+}
+
+//void	siginter(void)
+//{
+//	t_all *all;
 //
+//	all = NULL;
+//	all = memoire(all, 0);
+//	reset_term(all);
+//	exit(0);
+//}
 
 void	signalhandler(int code)
 {
-	// segfault
-	//		SIGSEGV
-	//	C^c
-	//		SIGINT
-	if (code == SIGINT)
-	{
-		printf("Signal C^c\n");
-		exit(-1);
-	}
-	if (code == SIGSEGV)
-	{
-		printf("SEGFAULT\n");
-	}
 	if (code == SIGCONT)
-	{
-		printf("SIGCONT\n");
-	}
+		sigcont();
+	else if (code == SIGSTOP)
+		sigstop();
+	else if (code == SIGWINCH)
+		sigwinch();
+//	else
+//		siginter();
 }
+
+int		ft_signal(void)
+{
+	signal(SIGCONT, signalhandler);
+	signal(SIGSTOP, signalhandler);
+	signal(SIGWINCH, signalhandler);
+	return (1);
+}
+
 
 /*
  * 1     SIGHUP       terminate process    terminal line hangup
@@ -59,4 +114,4 @@ void	signalhandler(int code)
  * 29    SIGINFO      discard signal       status request from keyboard
  * 30    SIGUSR1      terminate process    User defined signal 1
  * 31    SIGUSR2      terminate process    User defined signal 2
-*/
+ */

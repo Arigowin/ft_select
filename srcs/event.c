@@ -64,26 +64,10 @@ int		escape(t_point *point, t_elements **elem, t_win *win)
 
 int		enter(t_point *point, t_elements **elem, t_win *win)
 {
-	t_elements	*tmp;
-
 	(void)point;
 	(void)win;
-	tmp = *elem;
-	if (tmp->select)
-	{
-		ft_putstr(tmp->str);
-		ft_putchar(' ');
-	}
-	tmp = tmp->next;
-	while (!tmp->head)
-	{
-		if (tmp->select)
-		{
-			ft_putstr(tmp->str);
-			ft_putchar(' ');
-		}
-	}
-	return (-1);
+	(void)elem;
+	return (-2);
 }
 
 int		del(t_point *point, t_elements **elem, t_win *win)

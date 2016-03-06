@@ -27,10 +27,11 @@ int		lenmax(t_elements **elem)
 	return (lenmax + 2);
 }
 
-int		ft_input(t_input input[7], t_point *point, t_win *win, t_elements **tmp)
+int		ft_input(t_input input[7], t_point *point, t_elements **tmp, t_win *win)
 {
 	int			buf;
 	int			i;
+	int			ret;
 
 	buf = 0;
 	if (read(0, (char *)&buf, 3) == -1)
@@ -40,58 +41,64 @@ int		ft_input(t_input input[7], t_point *point, t_win *win, t_elements **tmp)
 		i++;
 	if (i < 7 && buf == (input[i]).value)
 	{
-		if ((input[i]).fun(point, tmp, win) == -1)
+		if ((ret = (input[i]).fun(point, tmp, win)) == -1)
 			return (-1);
+		else if (ret == -2)
+			return (-2);
 	}
 	return (0);
 }
 
-int     ft_select(t_elements **elem, int ac)
+int     ft_select(t_all *all, int ac)
 {
 	t_input		input[7];
-	t_point		point;
-	t_win		win;
-	t_elements	*tmp;
+	int			ret;
 
-	init_t_win(&win, ac - 1);
-	win.col_size = lenmax(elem);
-	init_t_point(&point, 0, 0);
-	print_lst(elem, win);
-	gohome();
+	init_t_win(&(all->win), ac - 1);
+	all->win.col_size = lenmax(&(all->elem));
+	init_t_point(&(all->point), 0, 0);
 	init_t_input(input);
-	tmp = *elem;
-	if (signal(SIGWINCH, signalhandler) == ((void (*)(/*int*/))SIGWINCH))
-	{
-		printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
-		print_lst(elem, win);
-	}
+	clear();
+	print_lst(&(all->elem), (all->win));
+	gohome();
 	while (1)
 	{
-		if (ft_input(input, &point, &win, &tmp) == -1)
+		if ((ret = ft_input(input, &all->point, &(all->elem), &all->win)) == -1)
 			return (-1);
+		else if (ret == -2)
+			return (-2);
 	}
 	return (0);
+}
+
+t_all	*memoire(t_all *all, int code)
+{
+	static t_all *tmp;
+
+	if (code == 0)
+		tmp = all;
+	return (tmp);
 }
 
 int		main(int ac, char **av)
 {
-	struct termios	term;
-	struct termios	term_old;
-	t_elements		*elem;
+	t_all			all;
+	int				ret;
 
-	elem = NULL;
+	all.elem = NULL;
 	if (ac > 1)
 	{
-		signal(SIGINT, signalhandler);
-		signal(SIGCONT, signalhandler);
-		init_term(&term, &term_old, av, &elem);
-		ft_select(&elem, ac);
-
-		clear();
-		showcursor();
-
-		if (tcsetattr(0, TCSANOW, &term_old) == -1)
+		ft_signal();
+		if (init_term(&all))
 			return (-1);
+		if (init_lst(&(all.elem), av) == FALSE)
+			return (-1);
+		memoire(&all, 0);
+		ret = ft_select(&all, ac);
+		if (reset_term(&all) == -1)
+			return (-1);
+		if (ret == -2)
+			print_select(all.elem);
 	}
 	return (0);
 }

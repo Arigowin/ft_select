@@ -4,6 +4,7 @@
 # define TRUE 1
 # define FALSE 0
 
+#include <term.h>
 typedef char			t_bool;
 typedef struct termios	t_termios;
 
@@ -25,8 +26,8 @@ typedef struct			s_point
 
 typedef struct			s_win
 {
-	int					nb_row;
 	int					nb_col;
+	int					nb_row;
 	int					col_size;
 	int					nb_elem;
 }						t_win;
@@ -36,6 +37,15 @@ typedef struct			s_input
 	int					value;
 	int					(*fun) (t_point *, t_elements **, t_win *);
 }						t_input;
+
+typedef struct			s_all
+{
+	t_termios			cur_term;
+	t_termios			old_term;
+	t_elements			*elem;
+	t_point				point;
+	t_win				win;
+}						t_all;
 
 // redesiner que si mis en tache de fond ^z
 //				ou suppr
@@ -61,10 +71,15 @@ int						init_t_win(t_win *win, int nb_elem);
 int						init_t_point(t_point *point, int x, int y);
 int						init_t_input(t_input input[7]);
 t_bool					init_lst(t_elements **elem, char **av);
-int						init_term(t_termios *term, t_termios *term_old, char **av, t_elements **elem);
+int						init_term(t_all *all);
+int						print_select(t_elements *elem);
 
+int		reset_term(t_all *all);
 
+int						ft_signal(void);
 void					signalhandler(int code);
+t_all	*memoire(t_all *all, int code);
+void	resize(t_all *all);
 
 #endif
 

@@ -1,15 +1,23 @@
 #include "ft_select.h"
 #include <term.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 int		init_t_win(t_win *win, int nb_elem)
 {
+	int		r;
+	int		c;
+
+	r = win->nb_row;
+	c = win->nb_col;
 	if ((win->nb_row = tgetnum("li")) == -1)
 		return (-1);
 	if ((win->nb_col = tgetnum("co")) == -1)
 		return (-1);
 	win->nb_elem = nb_elem;
 	win->col_size = 0;
+	if (win->nb_col != c || win->nb_row != r)
+		return (1);
 	return (0);
 }
 
@@ -53,25 +61,33 @@ t_bool		init_lst(t_elements **elem, char **av)
 	return (TRUE);
 }
 
-int		init_term(t_termios *term, t_termios *term_old, char **av, t_elements **elem)
+int		init_term(t_all *all)
 {
-	char			*name_term;
+	char	*res;
 
-	if (init_lst(elem, av) == FALSE)
+	if (tgetent(NULL, getenv("TERM")) == -1)
 		return (-1);
-	if ((name_term = getenv("TERM")) == NULL)
-		name_term = "xterm";
-	if (tgetent(NULL, name_term) == -1)
+	if (tcgetattr(0, &(all->cur_term)) == -1)
 		return (-1);
-	if (tcgetattr(0, term) == -1)
+	if (tcgetattr(0, &(all->old_term)) == -1)
 		return (-1);
-	if (tcgetattr(0, term_old) == -1)
+	all->cur_term.c_lflag &= ~(ICANON | ECHO);
+	all->cur_term.c_cc[VMIN] = 1;
+	all->cur_term.c_cc[VTIME] = 0;
+	if (tcsetattr(0, TCSADRAIN, &(all->cur_term)) == -1)
 		return (-1);
-	term->c_lflag &= ~(ICANON);
-	term->c_lflag &= ~(ECHO);
-	term->c_cc[VMIN] = 1;
-	term->c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, term) == -1)
+	if ((res = tgetstr("ti", NULL)) == NULL)
+		return (-1);
+	tputs(res, 0, my_outc);
+	hidecursor();
+	return (0);
+}
+
+int		reset_term(t_all *all)
+{
+	clear();
+	showcursor();
+	if (tcsetattr(0, TCSANOW, &(all->old_term)) == -1)
 		return (-1);
 	return (0);
 }

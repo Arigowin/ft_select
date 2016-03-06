@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <term.h>
 
+#include <unistd.h>
 int	my_outc(int c)
 {
 	ft_putchar(c);
@@ -73,9 +74,7 @@ int	print_lst(t_elements **elem, t_win win)
 	int			j;
 	int			x;
 
-	clear();
 	gohome();
-	hidecursor();
 	x = 0;
 	j = 1;
 	tmp = *elem;
@@ -90,5 +89,25 @@ int	print_lst(t_elements **elem, t_win win)
 			return (-1);
 	}
 	my_outc('\n');
+	return (0);
+}
+
+int	print_select(t_elements *elem)
+{
+	if (elem->select)
+	{
+		ft_putstr(elem->str);
+		ft_putstr(" ");
+	}
+	elem = elem->next;
+	while (elem && elem->next && elem->head == FALSE)
+	{
+		if (elem->select)
+		{
+			ft_putstr(elem->str);
+			ft_putstr(" ");
+		}
+		elem = elem->next;
+	}
 	return (0);
 }
