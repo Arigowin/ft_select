@@ -58,7 +58,6 @@ int		escape(t_point *point, t_elements **elem, t_win *win)
 	(void)point;
 	(void)elem;
 	(void)win;
-	//	exit (0);
 	return (-1);
 }
 
@@ -66,7 +65,8 @@ int		enter(t_point *point, t_elements **elem, t_win *win)
 {
 	(void)point;
 	(void)win;
-	(void)elem;
+	while ((*elem)->head == FALSE)
+		*elem = (*elem)->next;
 	return (-2);
 }
 

@@ -92,6 +92,7 @@ int	print_lst(t_elements **elem, t_win win)
 	return (0);
 }
 
+#include <stdio.h>
 int	print_select(t_elements *elem)
 {
 	if (elem->select)
