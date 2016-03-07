@@ -6,14 +6,14 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int		init_t_point(t_point *point, int x, int y)
+int			init_t_point(t_point *point, int x, int y)
 {
 	point->x = x;
 	point->y = y;
 	return (0);
 }
 
-int		init_t_input(t_input input[7])
+int			init_t_input(t_input input[7])
 {
 	(input[0]).value = 4283163;
 	(input[0]).fun = &prev;
@@ -37,7 +37,7 @@ t_bool		init_lst(t_elements **elem, char **av)
 	int		i;
 
 	i = 1;
-	while(av[i])
+	while (av[i])
 	{
 		if (elem_add(elem, av[i]) == NULL)
 			return (FALSE);
@@ -46,12 +46,12 @@ t_bool		init_lst(t_elements **elem, char **av)
 	return (TRUE);
 }
 
-int		init_term(t_all *all)
+int			init_term(t_all *all)
 {
 	char	*res;
 
 	all->fd = 0;
-	if ((all->fd = open("/dev/tty", O_NOCTTY|O_RDWR)) == -1)
+	if ((all->fd = open(ttyname(0), O_NOCTTY | O_WRONLY)) == -1)
 		return (-1);
 	memoire_fd(all->fd);
 	if (tgetent(NULL, getenv("TERM")) == -1)
@@ -72,7 +72,7 @@ int		init_term(t_all *all)
 	return (0);
 }
 
-int		reset_term(t_all *all)
+int			reset_term(t_all *all)
 {
 	showcursor();
 	all->old_term.c_lflag |= (ICANON | ECHO);

@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 13:02:00 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/06 15:47:59 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/07 11:25:07 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define CYAN     "\033[0;36m"
 # define GREY     "\033[0;37m"
 
-# define DEFAULT_COLOR "\033[0;m"
+# define DEFAULT_COLOR "\033[0m"
 
 # include <string.h>
 

@@ -1,10 +1,9 @@
-
 #ifndef FT_SELECT_H
 # define FT_SELECT_H
 # define TRUE 1
 # define FALSE 0
+# include <term.h>
 
-#include <term.h>
 typedef char			t_bool;
 typedef struct termios	t_termios;
 
@@ -48,10 +47,6 @@ typedef struct			s_input
 	int					(*fun) (t_all *);
 }						t_input;
 
-// redesiner que si mis en tache de fond ^z
-//				ou suppr
-//				ou redimension
-
 int						gobeginogline(int x, int y);
 
 int						clear(void);
@@ -87,47 +82,10 @@ void					signalhandler(int code);
 t_all					*memoire(t_all *all, int code);
 int						memoire_fd(int fd);
 
-void					resize(t_all *all);
+int						resize(t_all *all);
+
+int						ft_input(t_input input[8], t_all *all);
+
+int						ft_select(t_all *all);
 
 #endif
-
-/*
-** - unistd.h
-**		isatty
-**		ttyname
-**		ttyslot
-**		tcsetattr
-**		tcgetattr
-**		close
-**		write
-**		read
-** - stdlib.h
-**		ttyslot
-**		getenv
-**		malloc
-** 		free
-**		exit
-** - sys/ioctl.h
-**		ioctl
-**	- termios.h
-**		tcsetattr
-**		tcgetattr
-** - curses.h
-**		tgetent
-**		tgetflag
-**		tgetnum
-**		tgetstr
-**		tgoto
-**		tputs
-** - term.h
-**		tgetent
-**		tgetflag
-**		tgetnum
-**		tgetstr
-**		tgoto
-**		tputs
-** - fcntl.h
-**		open
-** - signal.h
-**		signal
-*/

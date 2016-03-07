@@ -12,17 +12,23 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -g -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = elem.c \
 	event.c \
+	event2.c \
+	ft_select.c \
 	iniscreen.c \
 	init.c \
+	input.c \
 	main.c \
+	mem.c \
 	move.c \
 	print.c \
-	sign.c
+	sign.c \
+	sign2.c \
+	tputs.c
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

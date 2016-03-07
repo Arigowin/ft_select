@@ -3,23 +3,17 @@
 #include <stdlib.h>
 #include <term.h>
 
-int	my_outc(int c)
-{
-	int		fd;
-
-	fd = 0;
-	fd = memoire_fd(fd);
-	ft_putchar_fd(c, fd);
-	return (0);
-}
-
 int	printstr(int fd, t_elements *elem, int x, int y)
 {
 	gobeginogline(x, y);
 	if (elem->select)
-		ft_putstr_color_fd(fd, "\033[30;47m", elem->str);
+	{
+		tputs(tgetstr("mr", NULL), 1, my_outc);
+		ft_putstr_fd(elem->str, fd);
+		tputs(tgetstr("me", NULL), 1, my_outc);
+	}
 	else
-		ft_putstr_color_fd(fd, "\033[0;m", elem->str);
+		ft_putstr_fd(elem->str, fd);
 	return (0);
 }
 
@@ -36,7 +30,11 @@ int	printstrunder(int fd, t_elements *elem, int x, int y)
 			return (-1);
 		tputs(res, 1, my_outc);
 		if (elem->select)
-			ft_putchar_color_fd(fd, "\033[30;47m", elem->str[i]);
+		{
+			tputs(tgetstr("mr", NULL), 1, my_outc);
+			ft_putchar_fd(elem->str[i], fd);
+			tputs(tgetstr("me", NULL), 1, my_outc);
+		}
 		else
 			ft_putchar_fd(elem->str[i], fd);
 		if ((res = tgetstr("ue", NULL)) == NULL)
@@ -99,16 +97,16 @@ int	print_select(t_all *all)
 {
 	if (all->elem->select)
 	{
-		ft_putstr_fd(all->elem->str, all->fd);
-		ft_putstr_fd(" ", all->fd);
+		ft_putstr_fd(all->elem->str, 1);
+		ft_putstr_fd(" ", 1);
 	}
 	all->elem = all->elem->next;
 	while (all->elem && all->elem->next && all->elem->head == FALSE)
 	{
 		if (all->elem->select)
 		{
-			ft_putstr_fd(all->elem->str, all->fd);
-			ft_putstr_fd(" ", all->fd);
+			ft_putstr_fd(all->elem->str, 1);
+			ft_putstr_fd(" ", 1);
 		}
 		all->elem = all->elem->next;
 	}

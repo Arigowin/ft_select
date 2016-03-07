@@ -41,7 +41,8 @@ int		prev(t_all *all)
 	else if (all->elem->head)
 	{
 		init_t_point(&(all->point),
-				all->win.col_size * (((all->win.nb_elem) - 1) / all->win.nb_row),
+				all->win.col_size * (((all->win.nb_elem) - 1) /
+					all->win.nb_row),
 				((all->win.nb_elem) - 1) % all->win.nb_row);
 	}
 	else
@@ -54,20 +55,6 @@ int		prev(t_all *all)
 	all->elem = all->elem->prev;
 	printstrunder(all->fd, all->elem, all->point.x, all->point.y);
 	return (0);
-}
-
-
-int		escape(t_all *all)
-{
-	(void)all;
-	return (-1);
-}
-
-int		enter(t_all *all)
-{
-	while (all->elem->head == FALSE)
-		all->elem = all->elem->next;
-	return (-2);
 }
 
 int		del(t_all *all)
@@ -100,9 +87,17 @@ int		space(t_all *all)
 	gobeginogline(all->point.x, all->point.y);
 	all->elem->select = !all->elem->select;
 	if (all->elem->select)
-		ft_putstr_color("\033[0;m", all->elem->str);
+	{
+		tputs(tgetstr("mr", NULL), 1, my_outc);
+		ft_putstr_fd(all->elem->str, all->fd);
+		tputs(tgetstr("me", NULL), 1, my_outc);
+	}
 	else
-		ft_putstr_color("\033[0;30;47m", all->elem->str);
+	{
+		tputs(tgetstr("mr", NULL), 1, my_outc);
+		ft_putstr_fd(all->elem->str, all->fd);
+		tputs(tgetstr("me", NULL), 1, my_outc);
+	}
 	next(all);
 	return (0);
 }
