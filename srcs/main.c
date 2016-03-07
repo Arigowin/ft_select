@@ -21,6 +21,8 @@ int		main(int ac, char **av)
 			return (-1);
 		if (ret == -2)
 			print_select(&all);
+		freelst(&(all.elem));
 	}
+	while(1);
 	return (0);
 }

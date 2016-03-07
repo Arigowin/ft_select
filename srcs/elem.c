@@ -13,8 +13,8 @@ t_elements		*elem_new(char *str)
 	new->head = FALSE;
 	new->under = FALSE;
 	new->select = FALSE;
-	new->next = NULL;
-	new->prev = NULL;
+	new->next = new;
+	new->prev = new;
 	return (new);
 }
 

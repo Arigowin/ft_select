@@ -18,6 +18,7 @@ LIBS = -L $(LIBPATH) -lft -ltermcap
 SRC = elem.c \
 	event.c \
 	event2.c \
+	free.c \
 	ft_select.c \
 	iniscreen.c \
 	init.c \
