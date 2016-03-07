@@ -8,13 +8,11 @@
 static void	sigstop(void)
 {
 	t_all	*all;
-	char	tmp;
 	int		fd;
 
 	all = NULL;
 	all = memoire(all, 1);
 	fd = memoire_fd(0);
-	tmp = all->cur_term.c_cc[VSUSP];
 	all->cur_term.c_lflag |= (ICANON | ECHO);
 	tcsetattr(fd, TCSANOW, &(all->cur_term));
 	showcursor();
