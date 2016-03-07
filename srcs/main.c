@@ -23,6 +23,5 @@ int		main(int ac, char **av)
 			print_select(&all);
 		freelst(&(all.elem));
 	}
-	while(1);
 	return (0);
 }
