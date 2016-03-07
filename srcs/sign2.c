@@ -5,6 +5,24 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+static void	sigstop(void)
+{
+	t_all	*all;
+	char	tmp;
+	int		fd;
+
+	all = NULL;
+	all = memoire(all, 1);
+	fd = memoire_fd(0);
+	tmp = all->cur_term.c_cc[VSUSP];
+	all->cur_term.c_lflag |= (ICANON | ECHO);
+	tcsetattr(fd, TCSANOW, &(all->cur_term));
+	showcursor();
+	tputs(tgetstr("te", NULL), 1, my_outc);
+	ioctl(STDOUT_FILENO, TIOCSTI, "\032");
+	signal(SIGTSTP, SIG_DFL);
+}
+
 static void	sigcont(void)
 {
 	t_all	*all;
@@ -16,7 +34,10 @@ static void	sigcont(void)
 	ft_signal();
 	fd = memoire_fd(0);
 	if (resize(all) == -1)
-		ft_putstr_fd("The window size id too small !", fd);
+	{
+		wintosmal(all, 0);
+		sigstop();
+	}
 	else
 	{
 		while (all->elem->head == FALSE)
@@ -25,22 +46,6 @@ static void	sigcont(void)
 		while (all->elem->under == FALSE)
 			all->elem = all->elem->next;
 	}
-}
-
-static void	sigstop(void)
-{
-	t_all	*all;
-	char	tmp;
-
-	all = NULL;
-	all = memoire(all, 1);
-	tmp = all->cur_term.c_cc[VSUSP];
-	all->cur_term.c_lflag |= (ICANON | ECHO);
-	tcsetattr(1, TCSANOW, &(all->cur_term));
-	showcursor();
-	tputs(tgetstr("te", NULL), 1, my_outc);
-	ioctl(1, TIOCSTI, &tmp);
-	signal(SIGTSTP, SIG_DFL);
 }
 
 static void	sigwinch(void)
@@ -52,7 +57,10 @@ static void	sigwinch(void)
 	all = memoire(all, 1);
 	fd = memoire_fd(0);
 	if (resize(all) == -1)
-		ft_putstr_fd("The window size id too small !", fd);
+	{
+		wintosmal(all, 0);
+		sigstop();
+	}
 	else
 	{
 		while (all->elem->head == FALSE)

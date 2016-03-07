@@ -48,44 +48,34 @@ typedef struct			s_input
 }						t_input;
 
 int						gobeginogline(int x, int y);
-
 int						clear(void);
 int						gohome(void);
 int						hidecursor(void);
 int						showcursor(void);
-
 int						next(t_all *all);
 int						prev(t_all *all);
 int						escape(t_all *all);
 int						enter(t_all *all);
 int						del(t_all *all);
 int						space(t_all *all);
-
 t_elements				*elem_add(t_elements **elem, char *str);
-
 int						init_t_point(t_point *point, int x, int y);
 int						init_t_input(t_input input[7]);
 t_bool					init_lst(t_elements **elem, char **av);
 int						init_term(t_all *all);
-
 int						my_outc(int c);
 int						printstr(int fd, t_elements *elem, int x, int y);
 int						printstrunder(int fd, t_elements *elem, int x, int y);
 int						print_lst(t_all *all);
 int						print_select(t_all *all);
-
 int						reset_term(t_all *all);
-
 int						ft_signal(void);
 void					signalhandler(int code);
-
 t_all					*memoire(t_all *all, int code);
 int						memoire_fd(int fd);
-
 int						resize(t_all *all);
-
 int						ft_input(t_input input[8], t_all *all);
-
 int						ft_select(t_all *all);
+int						wintosmal(t_all *all, int i);
 
 #endif
