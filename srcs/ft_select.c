@@ -13,9 +13,7 @@ int		wintosmal(t_all *all, int i)
 	if (read(0, (char *)&buf, 3) == -1)
 		return (-1);
 	if (buf == 10 || buf == 27)
-	{
 		return (escape(all));
-	}
 	else
 		return (wintosmal(all, i + 1));
 	return (1);
@@ -38,6 +36,8 @@ int		lenmax(t_elements **elem)
 			lenmax = lentmp;
 		tmp = tmp->next;
 	}
+	if (lenmax > 50)
+		lenmax = 50;
 	return (lenmax + 2);
 }
 

@@ -54,8 +54,8 @@ int		resize(t_all *all)
 	ioctl(all->fd, TIOCGWINSZ, &win);
 	all->win.nb_col = win.ws_col;
 	all->win.nb_row = win.ws_row;
-	if ((((all->win.nb_elem / all->win.nb_row) * all->win.col_size) - 1
-				> all->win.nb_col) || all->win.nb_row < 4)
+	if ((((all->win.nb_elem / all->win.nb_row) * all->win.col_size)
+				> all->win.nb_col - 3) || all->win.nb_row < 5)
 		return (-1);
 	return (1);
 }

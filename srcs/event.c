@@ -84,20 +84,20 @@ int		del(t_all *all)
 
 int		space(t_all *all)
 {
+	int		i;
+
 	gobeginogline(all->point.x, all->point.y);
 	all->elem->select = !all->elem->select;
-	if (all->elem->select)
+	tputs(tgetstr("mr", NULL), 1, my_outc);
+	i = 0;
+	while (all->elem->str && all->elem->str[i] && i < 47)
 	{
-		tputs(tgetstr("mr", NULL), 1, my_outc);
-		ft_putstr_fd(all->elem->str, all->fd);
-		tputs(tgetstr("me", NULL), 1, my_outc);
+		ft_putchar_fd(all->elem->str[i], all->fd);
+		i++;
 	}
-	else
-	{
-		tputs(tgetstr("mr", NULL), 1, my_outc);
-		ft_putstr_fd(all->elem->str, all->fd);
-		tputs(tgetstr("me", NULL), 1, my_outc);
-	}
+	if (i < (int)ft_strlen(all->elem->str))
+		ft_putstr_fd("...", all->fd);
+	tputs(tgetstr("me", NULL), 1, my_outc);
 	next(all);
 	return (0);
 }

@@ -5,43 +5,42 @@
 
 int	printstr(int fd, t_elements *elem, int x, int y)
 {
+	int		i;
+
 	gobeginogline(x, y);
+	i = 0;
 	if (elem->select)
-	{
 		tputs(tgetstr("mr", NULL), 1, my_outc);
-		ft_putstr_fd(elem->str, fd);
-		tputs(tgetstr("me", NULL), 1, my_outc);
+	while (elem->str && elem->str[i] && i < 47)
+	{
+		ft_putchar_fd(elem->str[i], fd);
+		i++;
 	}
-	else
-		ft_putstr_fd(elem->str, fd);
+	if (i < (int)ft_strlen(elem->str))
+		ft_putstr_fd("...", fd);
+	tputs(tgetstr("me", NULL), 1, my_outc);
 	return (0);
 }
 
 int	printstrunder(int fd, t_elements *elem, int x, int y)
 {
-	char	*res;
 	int		i;
 
 	i = 0;
 	gobeginogline(x, y);
-	while (elem->str && elem->str[i])
+	if (elem->select)
+		tputs(tgetstr("mr", NULL), 1, my_outc);
+	while (elem->str && elem->str[i] && i < 47)
 	{
-		if ((res = tgetstr("us", NULL)) == NULL)
-			return (-1);
-		tputs(res, 1, my_outc);
-		if (elem->select)
-		{
-			tputs(tgetstr("mr", NULL), 1, my_outc);
-			ft_putchar_fd(elem->str[i], fd);
-			tputs(tgetstr("me", NULL), 1, my_outc);
-		}
-		else
-			ft_putchar_fd(elem->str[i], fd);
-		if ((res = tgetstr("ue", NULL)) == NULL)
-			return (-1);
-		tputs(res, 1, my_outc);
+		tputs(tgetstr("us", NULL), 1, my_outc);
+		ft_putchar_fd(elem->str[i], fd);
 		i++;
 	}
+	tputs(tgetstr("us", NULL), 1, my_outc);
+	if (i < (int)ft_strlen(elem->str))
+		ft_putstr_fd("...", fd);
+	tputs(tgetstr("ue", NULL), 2, my_outc);
+	tputs(tgetstr("me", NULL), 1, my_outc);
 	return (0);
 }
 
