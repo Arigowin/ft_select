@@ -5,9 +5,6 @@
 
 int		wintosmal(t_all *all, int i)
 {
-	int		buf;
-
-	buf = 0;
 	if (i == 0)
 		ft_putstr_fd("The window size is too small !\n", all->fd);
 	return (1);
