@@ -10,12 +10,6 @@ int		wintosmal(t_all *all, int i)
 	buf = 0;
 	if (i == 0)
 		ft_putstr_fd("The window size is too small !\n", all->fd);
-	if (read(0, (char *)&buf, 3) == -1)
-		return (-1);
-	if (buf == 10 || buf == 27)
-		return (escape(all));
-	else
-		return (wintosmal(all, i + 1));
 	return (1);
 }
 
@@ -53,7 +47,7 @@ int		ft_select(t_all *all)
 	clear();
 	gobeginogline(0, 0);
 	if (resize(all) == -1)
-		return (wintosmal(all, 0));
+		wintosmal(all, 0);
 	else
 		print_lst(all);
 	gohome();

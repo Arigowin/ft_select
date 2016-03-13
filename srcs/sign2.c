@@ -40,10 +40,7 @@ static void	sigcont(void)
 	init_term(all);
 	ft_signal();
 	if (resize(all) == -1)
-	{
 		wintosmal(all, 0);
-		siginter();
-	}
 	else
 	{
 		while (all->elem->head == FALSE)
@@ -61,10 +58,7 @@ static void	sigwinch(void)
 	all = NULL;
 	all = memoire(all, 1);
 	if (resize(all) == -1)
-	{
 		wintosmal(all, 0);
-		siginter();
-	}
 	else
 	{
 		while (all->elem->head == FALSE)
