@@ -13,7 +13,7 @@ int			init_t_point(t_point *point, int x, int y)
 	return (0);
 }
 
-int			init_t_input(t_input input[7])
+int			init_t_input(t_input input[9])
 {
 	(input[0]).value = 4283163;
 	(input[0]).fun = &prev;
@@ -29,18 +29,26 @@ int			init_t_input(t_input input[7])
 	(input[5]).fun = &del;
 	(input[6]).value = 32;
 	(input[6]).fun = &space;
+	(input[7]).value = 4414235;
+	(input[7]).fun = &right;
+	(input[8]).value = 4479771;
+	(input[8]).fun = &left;
 	return (0);
 }
 
-t_bool		init_lst(t_elements **elem, char **av)
+t_bool		init_lst(t_elements **elem, char **av, t_all *all)
 {
 	int		i;
 
 	i = 1;
 	while (av[i])
 	{
-		if (elem_add(elem, av[i]) == NULL)
-			return (FALSE);
+		if (av[i][0] != '\0')
+		{
+			if (elem_add(elem, av[i]) == NULL)
+				return (FALSE);
+			all->win.nb_elem++;
+		}
 		i++;
 	}
 	return (TRUE);

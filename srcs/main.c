@@ -7,14 +7,14 @@ int		main(int ac, char **av)
 	int				ret;
 
 	all.elem = NULL;
-	if (ac > 1)
+	all.win.nb_elem = 0;
+	if (ac > 1 && av[0] != NULL && av[1] != NULL && av[1][0] != '\0')
 	{
 		ft_signal();
 		if (init_term(&all))
 			return (-1);
-		if (init_lst(&(all.elem), av) == FALSE)
+		if (init_lst(&(all.elem), av, &all) == FALSE)
 			return (-1);
-		all.win.nb_elem = ac - 1;
 		memoire(&all, 0);
 		ret = ft_select(&all);
 		if (reset_term(&all) == -1)
