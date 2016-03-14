@@ -34,7 +34,7 @@ int		lenmax(t_elements **elem)
 
 int		ft_select(t_all *all)
 {
-	t_input		input[7];
+	t_input		input[9];
 	int			ret;
 
 	all->win.col_size = 0;

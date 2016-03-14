@@ -1,7 +1,8 @@
 #include "ft_select.h"
 #include <unistd.h>
 
-int		ft_input(t_input input[7], t_all *all)
+#include <stdio.h>
+int		ft_input(t_input input[9], t_all *all)
 {
 	int			buf;
 	int			i;
@@ -11,9 +12,9 @@ int		ft_input(t_input input[7], t_all *all)
 	if (read(0, (char *)&buf, 3) == -1)
 		return (-1);
 	i = 0;
-	while (i < 7 && buf != (input[i]).value)
+	while (i < 9 && buf != (input[i]).value)
 		i++;
-	if (i < 7 && buf == (input[i]).value)
+	if (i < 9 && buf == (input[i]).value)
 	{
 		if ((ret = (input[i]).fun(all)) == -1)
 			return (-1);
