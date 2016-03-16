@@ -1,11 +1,5 @@
 #include "ft_select.h"
 
-int				escape(t_all *all)
-{
-	(void)all;
-	return (-1);
-}
-
 int				enter(t_all *all)
 {
 	while (all->elem->head == FALSE)
@@ -20,11 +14,11 @@ static int		calc_right(t_all *all)
 	float	tmp;
 	int		tmp2;
 
-	tmp = 0.0 + ((float)all->win.nb_elem/(float)all->win.nb_row);
-	tmp2 = (all->win.nb_elem/all->win.nb_row);
+	tmp = 0.0 + ((float)all->win.nb_elem / (float)all->win.nb_row);
+	tmp2 = (all->win.nb_elem / all->win.nb_row);
 	i = 0;
 	stop = 0;
-	if ((all->win.nb_elem/all->win.nb_row) > 0)
+	if ((all->win.nb_elem / all->win.nb_row) > 0)
 	{
 		stop = all->win.nb_row;
 		if (tmp > tmp2)
@@ -62,7 +56,7 @@ static int		calc_left(t_all *all)
 	int		stop;
 
 	stop = 0;
-	if ((all->win.nb_elem/all->win.nb_row) > 0)
+	if ((all->win.nb_elem / all->win.nb_row) > 0)
 	{
 		stop = all->win.nb_row;
 		if (all->point.x == 0)

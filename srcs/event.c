@@ -101,3 +101,9 @@ int		space(t_all *all)
 	next(all);
 	return (0);
 }
+
+int		escape(t_all *all)
+{
+	(void)all;
+	return (-1);
+}

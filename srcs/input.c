@@ -1,7 +1,6 @@
 #include "ft_select.h"
 #include <unistd.h>
 
-#include <stdio.h>
 int		ft_input(t_input input[9], t_all *all)
 {
 	int			buf;
