@@ -1,10 +1,5 @@
 #include "ft_select.h"
-#include <term.h>
 #include <stdlib.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
 
 int			init_t_point(t_point *point, int x, int y)
 {
@@ -52,32 +47,6 @@ t_bool		init_lst(t_elements **elem, char **av, t_all *all)
 		i++;
 	}
 	return (TRUE);
-}
-
-int			init_term(t_all *all)
-{
-	char	*res;
-
-	all->fd = 0;
-	if ((all->fd = open(ttyname(0), O_NOCTTY | O_WRONLY)) == -1)
-		return (-1);
-	memoire_fd(all->fd);
-	if (tgetent(NULL, getenv("TERM")) == -1)
-		return (-1);
-	if (tcgetattr(all->fd, &(all->cur_term)) == -1)
-		return (-1);
-	if (tcgetattr(all->fd, &(all->old_term)) == -1)
-		return (-1);
-	all->cur_term.c_lflag &= ~(ICANON | ECHO);
-	all->cur_term.c_cc[VMIN] = 1;
-	all->cur_term.c_cc[VTIME] = 0;
-	if (tcsetattr(all->fd, TCSADRAIN, &(all->cur_term)) == -1)
-		return (-1);
-	if ((res = tgetstr("ti", NULL)) == NULL)
-		return (-1);
-	tputs(res, 1, my_outc);
-	hidecursor();
-	return (0);
 }
 
 int			reset_term(t_all *all)

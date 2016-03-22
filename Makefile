@@ -12,7 +12,7 @@ HPATH =		$(ROOT)/includes
 LIBPATH =	$(ROOT)/libft
 LIBHPATH =	$(LIBPATH)/includes
 
-CFLAGS = -O3 -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
+CFLAGS = -g -Wall -Werror -Wextra -I $(HPATH) -I $(LIBHPATH)
 LIBS = -L $(LIBPATH) -lft -ltermcap
 
 SRC = elem.c \
@@ -22,6 +22,7 @@ SRC = elem.c \
 	ft_select.c \
 	iniscreen.c \
 	init.c \
+	initterm.c \
 	input.c \
 	main.c \
 	mem.c \
