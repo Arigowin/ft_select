@@ -22,7 +22,15 @@ int		main(int ac, char **av)
 			return (-1);
 		if (ret == -2)
 			print_select(&all);
-		freelst(&(all.elem));
+		if (all.win.nb_elem > 0)
+		{
+			freelst(&all);
+		//	while(all.elem)
+		//	{
+		//		if (del(&all) == -1)
+		//			return (0);
+		//	}
+		}
 	}
 	return (0);
 }

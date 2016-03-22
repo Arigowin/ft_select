@@ -2,16 +2,17 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void	freelst(t_elements **elem)
+void	freelst(t_all *all)
 {
-	t_elements	*tmp;
+	t_elements *tmp;
 
-	while (elem && *elem && (*elem)->next)
+	while (all->elem && all->elem->next)
 	{
-		tmp = (*elem)->next;
-		(*elem)->prev->next = NULL;
-		ft_strdel(&((*elem)->str));
-		free(*elem);
-		*elem = tmp;
+		tmp = all->elem->next;
+		all->elem->prev->next = all->elem->next;
+		all->elem->next->prev = all->elem->prev;
+		free(all->elem->str);
+		free(all->elem);
+		all->elem = tmp;
 	}
 }

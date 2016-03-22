@@ -80,6 +80,6 @@ int						resize(t_all *all);
 int						ft_input(t_input input[9], t_all *all);
 int						ft_select(t_all *all);
 int						wintosmal(t_all *all, int i);
-void					freelst(t_elements **elem);
+void					freelst(t_all *all);
 
 #endif
