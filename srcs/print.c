@@ -28,19 +28,19 @@ int	printstrunder(int fd, t_elements *elem, int x, int y)
 
 	i = 0;
 	gobeginogline(x, y);
-	if (elem->select)
-		tputs(tgetstr("mr", NULL), 1, my_outc);
 	while (elem->str && elem->str[i] && i < 47)
 	{
 		tputs(tgetstr("us", NULL), 1, my_outc);
-		ft_putchar_fd(elem->str[i], fd);
+		if (elem->select)
+			ft_putchar_color_fd(fd, "\033[45m", elem->str[i]);
+		else
+			ft_putchar_color_fd(fd, "\033[41m", elem->str[i]);
 		i++;
 	}
 	tputs(tgetstr("us", NULL), 1, my_outc);
 	if (i < (int)ft_strlen(elem->str))
 		ft_putstr_fd("...", fd);
 	tputs(tgetstr("ue", NULL), 2, my_outc);
-	tputs(tgetstr("me", NULL), 1, my_outc);
 	return (0);
 }
 

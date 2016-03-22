@@ -24,7 +24,8 @@ int		next(t_all *all)
 		tputs(tgoto(res, all->point.x, all->point.y), 1, my_outc);
 	}
 	all->elem->under = TRUE;
-	printstrunder(all->fd, all->elem, all->point.x, all->point.y);
+	if (all->show)
+		printstrunder(all->fd, all->elem, all->point.x, all->point.y);
 	return (0);
 }
 
@@ -53,7 +54,8 @@ int		prev(t_all *all)
 	}
 	all->elem->under = TRUE;
 	all->elem = all->elem->prev;
-	printstrunder(all->fd, all->elem, all->point.x, all->point.y);
+	if (all->show)
+		printstrunder(all->fd, all->elem, all->point.x, all->point.y);
 	return (0);
 }
 

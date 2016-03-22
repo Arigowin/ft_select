@@ -8,6 +8,7 @@ int		main(int ac, char **av)
 
 	all.elem = NULL;
 	all.win.nb_elem = 0;
+	all.show = 1;
 	if (ac > 1 && av[0] != NULL && av[1] != NULL && av[1][0] != '\0')
 	{
 		ft_signal();
