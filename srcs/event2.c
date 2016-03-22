@@ -42,8 +42,11 @@ int				right(t_all *all)
 
 	stop = calc_right(all);
 	i = 0;
+	all->show = 0;
 	while (i < stop)
 	{
+		if (i == stop - 1)
+			all->show = 1;
 		if (next(all) == -1)
 			return (-1);
 		i++;
@@ -77,8 +80,11 @@ int				left(t_all *all)
 
 	i = 0;
 	stop = calc_left(all);
+	all->show = 0;
 	while (i < stop)
 	{
+		if (i == stop - 1)
+			all->show = 1;
 		if (prev(all) == -1)
 			return (-1);
 		i++;

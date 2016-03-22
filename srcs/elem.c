@@ -6,6 +6,7 @@ t_elements		*elem_new(char *str)
 {
 	t_elements	*new;
 
+	new = NULL;
 	if ((new = (t_elements*)malloc(sizeof(t_elements))) == NULL)
 		return (NULL);
 	if ((new->str = ft_strdup(str)) == NULL)

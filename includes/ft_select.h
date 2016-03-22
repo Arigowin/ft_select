@@ -39,6 +39,7 @@ typedef struct			s_all
 	t_point				point;
 	t_win				win;
 	int					fd;
+	int					show;
 }						t_all;
 
 typedef struct			s_input
