@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   event.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/23 12:05:13 by dolewski          #+#    #+#             */
+/*   Updated: 2016/03/23 12:05:13 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "ft_select.h"
 #include <stdlib.h>
@@ -41,9 +53,8 @@ int		prev(t_all *all)
 				all->point.x - all->win.col_size, all->win.nb_row - 1);
 	else if (all->elem->head)
 	{
-		init_t_point(&(all->point),
-				all->win.col_size * (((all->win.nb_elem) - 1) /
-					all->win.nb_row),
+		init_t_point(&(all->point), all->win.col_size * (((all->win.nb_elem) -
+						1) / all->win.nb_row),
 				((all->win.nb_elem) - 1) % all->win.nb_row);
 	}
 	else
