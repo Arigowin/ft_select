@@ -2,7 +2,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-#include <stdio.h>
 void	freelst(t_all *all)
 {
 	t_elements	*tmp;

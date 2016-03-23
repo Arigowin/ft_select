@@ -12,7 +12,6 @@ static int	init_term_2(t_all *all)
 	tmp = ttyname(0);
 	if ((all->fd = open(tmp, O_NOCTTY | O_WRONLY)) == -1)
 		return (-1);
-	ft_strdel(&tmp);
 	memoire_fd(all->fd);
 	if ((tmp = getenv("TERM")) == NULL)
 		tmp = "xterm-256color";
