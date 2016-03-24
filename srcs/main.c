@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:16 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:16 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/24 15:42:27 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@ int		main(int ac, char **av)
 	all.elem = NULL;
 	all.win.nb_elem = 0;
 	all.show = 1;
-	if (ac > 1 && av[0] != NULL && av[1] != NULL && av[1][0] != '\0')
+	if (ac > 1 && av[1] != NULL)
 	{
 		ft_signal();
 		if (init_term(&all))
 			return (-1);
-		if (init_lst(&(all.elem), av, &all) == FALSE)
-			return (-1);
-		memoire(&all, 0);
-		ret = ft_select(&all);
+		if (init_lst(&(all.elem), av, &all) == TRUE)
+		{
+			memoire(&all, 0);
+			ret = ft_select(&all);
+		}
 		if (reset_term(&all) == -1)
 			return (-1);
 		if (ret == -2)

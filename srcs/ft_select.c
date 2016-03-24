@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:14 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:14 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/24 15:39:23 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int		ft_select(t_all *all)
 	gohome();
 	while (1)
 	{
+		if (all->win.nb_elem == 0)
+			return (0);
 		if ((ret = ft_input(input, all)) == -1)
 			return (-1);
 		else if (ret == -2)

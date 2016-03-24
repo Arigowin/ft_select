@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:15 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:15 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/24 15:41:00 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_bool		init_lst(t_elements **elem, char **av, t_all *all)
 		}
 		i++;
 	}
+	if (all->win.nb_elem == 0)
+		return (FALSE);
 	return (TRUE);
 }
 
