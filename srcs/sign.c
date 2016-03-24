@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:17 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:17 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/24 15:34:38 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_signal(void)
 	int i;
 
 	i = 1;
-	while (i < 32)
+	while (i < 30)
 	{
 		signal(i, signalhandler);
 		i++;
