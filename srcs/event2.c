@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:14 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:14 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/24 15:53:19 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int				right(t_all *all)
 			return (-1);
 		i++;
 	}
+	all->show = 1;
 	return (0);
 }
 
@@ -101,5 +102,6 @@ int				left(t_all *all)
 			return (-1);
 		i++;
 	}
+	all->show = 1;
 	return (0);
 }
