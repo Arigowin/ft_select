@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:16 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/25 11:28:39 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/25 11:44:17 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	printstrunder(int fd, t_elements *elem, int x, int y)
 	char	*col;
 
 	i = 0;
+	col = NULL;
 	gobeginogline(x, y);
 	while (elem->str && elem->str[i] && i < 47)
 	{
