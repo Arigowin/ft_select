@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:13 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:13 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/25 11:28:16 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int		prev(t_all *all)
 			return (-1);
 		tputs(tgoto(res, all->point.x, all->point.y), 1, my_outc);
 	}
-	all->elem->under = TRUE;
 	all->elem = all->elem->prev;
+	all->elem->under = TRUE;
 	if (all->show)
 		printstrunder(all->fd, all->elem, all->point.x, all->point.y);
 	return (0);

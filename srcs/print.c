@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/23 12:05:16 by dolewski          #+#    #+#             */
-/*   Updated: 2016/03/23 12:05:16 by dolewski         ###   ########.fr       */
+/*   Updated: 2016/03/25 11:28:39 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ int	printstr(int fd, t_elements *elem, int x, int y)
 	}
 	if (i < (int)ft_strlen(elem->str))
 		ft_putstr_fd("...", fd);
-	tputs(tgetstr("me", NULL), 1, my_outc);
+	if (elem->select)
+		tputs(tgetstr("me", NULL), 1, my_outc);
 	return (0);
 }
 
 int	printstrunder(int fd, t_elements *elem, int x, int y)
 {
 	int		i;
+	char	*col;
 
 	i = 0;
 	gobeginogline(x, y);
@@ -44,15 +46,16 @@ int	printstrunder(int fd, t_elements *elem, int x, int y)
 	{
 		tputs(tgetstr("us", NULL), 1, my_outc);
 		if (elem->select)
-			ft_putchar_color_fd(fd, "\033[45m", elem->str[i]);
+			col = "\033[45m";
 		else
-			ft_putchar_color_fd(fd, "\033[41m", elem->str[i]);
+			col = "\033[41m";
+		ft_putchar_color_fd(fd, col, elem->str[i]);
 		i++;
 	}
 	tputs(tgetstr("us", NULL), 1, my_outc);
 	if (i < (int)ft_strlen(elem->str))
-		ft_putstr_fd("...", fd);
-	tputs(tgetstr("ue", NULL), 2, my_outc);
+		ft_putstr_color_fd(fd, col, "...");
+	tputs(tgetstr("ue", NULL), 1, my_outc);
 	return (0);
 }
 
@@ -88,19 +91,15 @@ int	print_lst(t_all *all)
 
 	gohome();
 	x = 0;
-	j = 1;
+	j = 0;
 	tmp = all->elem;
-	if (tmp->under)
-		printstrunder(all->fd, tmp, 0, 0);
-	else
-		printstr(all->fd, tmp, 0, 0);
-	tmp = tmp->next;
+	if (print_one_elem(all, &tmp, &j, &x) == -1)
+		return (-1);
 	while (tmp && tmp->next && tmp->head == FALSE)
 	{
 		if (print_one_elem(all, &tmp, &j, &x) == -1)
 			return (-1);
 	}
-	my_outc('\n');
 	return (0);
 }
 
